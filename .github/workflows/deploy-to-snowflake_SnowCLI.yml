@@ -49,4 +49,5 @@ jobs:
           export SNOWFLAKE_CONFIG_FILE=~/.snowflake/config.toml
           
           echo "🔁 Running deploy script..."
-          snow sql --connection default --filename scripts/main_deploy.sql || echo "❌ Snow SQL failed"
+          snow sql --connection github --filename scripts/main_deploy.sql
+
