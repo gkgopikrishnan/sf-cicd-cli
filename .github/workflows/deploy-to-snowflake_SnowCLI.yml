@@ -21,13 +21,13 @@ jobs:
 
       - name: Run Snowflake Deployment (Hardcoded Credentials)
         env:
-          SNOWFLAKE_ACCOUNT: LNVIESZ-AKB04277
-          SNOWFLAKE_USERNAME: STRAINING
-          SNOWFLAKE_PASSWORD: SuperGoodluck2025
+          SNOWFLAKE_ACCOUNT: SPHEUCZ-HQ66596
+          SNOWFLAKE_USERNAME: SFTRAINING
+          SNOWFLAKE_PASSWORD: SuperGoodluck@025
           SNOWFLAKE_ROLE: ACCOUNTADMIN
           SNOWFLAKE_WAREHOUSE: COMPUTE_WH
-          SNOWFLAKE_DATABASE: TEST
-          SNOWFLAKE_SCHEMA: TEST_SCH
+          SNOWFLAKE_DATABASE: SFTRAINING_EMP_DB
+          SNOWFLAKE_SCHEMA: EMP_HR
         run: |
           set -x
           mkdir -p ~/.snowflake
