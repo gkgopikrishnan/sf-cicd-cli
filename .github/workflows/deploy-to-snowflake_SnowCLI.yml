@@ -42,9 +42,11 @@ jobs:
           schema = "${SNOWFLAKE_SCHEMA}"
           EOF
           chmod 0600 ~/.snowflake/config.toml
-
+          
           echo "📄 Snowflake config file:"
           cat ~/.snowflake/config.toml
 
+          export SNOWFLAKE_CONFIG_FILE=~/.snowflake/config.toml
+          
           echo "🔁 Running deploy script..."
           snow sql --connection default --filename scripts/main_deploy.sql || echo "❌ Snow SQL failed"
