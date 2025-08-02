@@ -3,7 +3,7 @@ name: Deploy to Snowflake (SnowCLI)
 on:
   push:
     branches:
-      - main  # or dev, as needed
+      - dev  # or dev, as needed
 
 jobs:
   deploy:
