@@ -19,7 +19,7 @@ jobs:
           pip install snowflake-cli-labs
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-      - name: Run Snowflake Deployment (Hardcoded Credentials)
+      - name: Run Snowflake Deployment (Inline Credentials)
         env:
           SNOWFLAKE_ACCOUNT: SPHEUCZ-HQ66596
           SNOWFLAKE_USERNAME: SFTRAINING
@@ -30,24 +30,13 @@ jobs:
           SNOWFLAKE_SCHEMA: EMP_HR
         run: |
           set -x
-          mkdir -p ~/.snowflake
-          cat <<EOF > ~/.snowflake/config.toml
-          [default]
-          account = "${SNOWFLAKE_ACCOUNT}"
-          user = "${SNOWFLAKE_USERNAME}"
-          password = "${SNOWFLAKE_PASSWORD}"
-          role = "${SNOWFLAKE_ROLE}"
-          warehouse = "${SNOWFLAKE_WAREHOUSE}"
-          database = "${SNOWFLAKE_DATABASE}"
-          schema = "${SNOWFLAKE_SCHEMA}"
-          EOF
-          chmod 0600 ~/.snowflake/config.toml
-          
-          echo "📄 Snowflake config file:"
-          cat ~/.snowflake/config.toml
-
-          export SNOWFLAKE_CONFIG_FILE=~/.snowflake/config.toml
-          
-          echo "🔁 Running deploy script..."
-          snow sql --connection github --filename scripts/main_deploy.sql
-
+          echo "🔁 Running Snowflake deploy script..."
+          snow sql \
+            --account "$SNOWFLAKE_ACCOUNT" \
+            --user "$SNOWFLAKE_USERNAME" \
+            --password "$SNOWFLAKE_PASSWORD" \
+            --role "$SNOWFLAKE_ROLE" \
+            --warehouse "$SNOWFLAKE_WAREHOUSE" \
+            --database "$SNOWFLAKE_DATABASE" \
+            --schema "$SNOWFLAKE_SCHEMA" \
+            --filename scripts/main_deploy.sql
