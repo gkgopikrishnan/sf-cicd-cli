@@ -43,4 +43,4 @@ jobs:
           EOF
 
           echo "🔁 Running deploy script..."
-          snowflake sql run --file sql/deploy.sql --environment default
+          snowflake sql run --file scripts/main_deploy.sql --environment default
