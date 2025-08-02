@@ -42,4 +42,4 @@ jobs:
           EOF
           chmod 0600 ~/.snowflake/config.toml
           echo "🔁 Running deploy script..."
-          snow sql run --file scripts/main_deploy.sql --environment default
+          snow sql run --filename scripts/main_deploy.sql --environment default
