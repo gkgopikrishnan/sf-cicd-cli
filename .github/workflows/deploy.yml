@@ -1,0 +1,39 @@
+name: Deploy to Snowflake
+
+on:
+  push:
+    branches:
+      - main  # adjust to your branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install Python + pipx + snowflake-cli
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install pipx
+          pipx install snowflake-cli-labs  # installs `snowcli`
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      # - name: Create Snowflake config
+      #   run: |
+      #     mkdir -p ~/.snowflake
+      #     cat <<EOF > ~/.snowflake/config.toml
+      #     [default]
+      #     account = "${{ secrets.SNOWFLAKE_ACCOUNT }}"
+      #     user = "${{ secrets.SNOWFLAKE_USERNAME }}"
+      #     password = "${{ secrets.SNOWFLAKE_PASSWORD }}"
+      #     role = "${{ secrets.SNOWFLAKE_ROLE }}"
+      #     warehouse = "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
+      #     database = "${{ secrets.SNOWFLAKE_DATABASE }}"
+      #     schema = "${{ secrets.SNOWFLAKE_SCHEMA }}"
+      #     EOF
+
+      # - name: Run Snowflake Deploy
+      #   run: |
+      #     snowflake sql run --file sql/deploy.sql
