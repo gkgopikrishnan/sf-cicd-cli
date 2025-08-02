@@ -1,3 +1,2 @@
-!source create_views.sql
-!source create_procs.sql
-!source seed_data.sql
+!source procedures/create_procs.sql
+!source views/create_views.sql
