@@ -47,4 +47,4 @@ jobs:
           cat ~/.snowflake/config.toml
 
           echo "🔁 Running deploy script..."
-          snow sql --config ~/.snowflake/config.toml --filename scripts/main_deploy.sql --environment default || echo "❌ Snow SQL failed"
+          snow sql --connection ~/.snowflake/config.toml --filename scripts/main_deploy.sql --environment default || echo "❌ Snow SQL failed"
