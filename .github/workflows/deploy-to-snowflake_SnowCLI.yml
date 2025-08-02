@@ -3,7 +3,7 @@ name: Deploy to Snowflake (SnowCLI)
 on:
   push:
     branches:
-      - dev  # or dev, as needed
+      - dev  # Trigger on push to dev branch
 
 jobs:
   deploy:
@@ -42,5 +42,9 @@ jobs:
           schema = "${SNOWFLAKE_SCHEMA}"
           EOF
           chmod 0600 ~/.snowflake/config.toml
+
+          echo "📄 Snowflake config file:"
+          cat ~/.snowflake/config.toml
+
           echo "🔁 Running deploy script..."
-          snow sql --filename scripts/main_deploy.sql --environment default || echo "❌ Snow SQL failed"
+          snow sql --config ~/.snowflake/config.toml --filename scripts/main_deploy.sql --environment default || echo "❌ Snow SQL failed"
