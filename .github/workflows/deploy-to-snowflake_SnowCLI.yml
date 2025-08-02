@@ -40,6 +40,6 @@ jobs:
           database = "${SNOWFLAKE_DATABASE}"
           schema = "${SNOWFLAKE_SCHEMA}"
           EOF
-
+          chmod 0600 ~/.snowflake/config.toml
           echo "🔁 Running deploy script..."
           snow sql run --file scripts/main_deploy.sql --environment default
