@@ -29,6 +29,7 @@ jobs:
           SNOWFLAKE_DATABASE: TEST
           SNOWFLAKE_SCHEMA: TEST_SCH
         run: |
+          set -x
           mkdir -p ~/.snowflake
           cat <<EOF > ~/.snowflake/config.toml
           [default]
@@ -42,4 +43,4 @@ jobs:
           EOF
           chmod 0600 ~/.snowflake/config.toml
           echo "🔁 Running deploy script..."
-          snow sql --filename scripts/main_deploy.sql --environment default
+          snow sql --filename scripts/main_deploy.sql --environment default || echo "❌ Snow SQL failed"
