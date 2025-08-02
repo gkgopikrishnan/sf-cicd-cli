@@ -19,16 +19,24 @@ jobs:
           python3 -m pip install --upgrade pip
           pip install snowflake-cli-labs
           echo "$HOME/.local/bin" >> $GITHUB_PATH
-          hash -r  # refresh shell path
+          hash -r  # Refresh shell path
           snow --version || echo "Snow CLI not found"
 
-      - name: Debug Snowflake environment variables
+      - name: Print all Snowflake env vars for debug (masked password)
+        env:
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USERNAME: ${{ secrets.SNOWFLAKE_USERNAME }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+          SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
+          SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
+          SNOWFLAKE_DATABASE: ${{ secrets.SNOWFLAKE_DATABASE }}
+          SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
         run: |
           set -x
           echo "🛠 Snowflake Environment Variables:"
           echo "SNOWFLAKE_ACCOUNT=$SNOWFLAKE_ACCOUNT"
           echo "SNOWFLAKE_USERNAME=$SNOWFLAKE_USERNAME"
-          echo "SNOWFLAKE_PASSWORD=********"  # Mask password for security
+          echo "SNOWFLAKE_PASSWORD=********"  # Masked for security
           echo "SNOWFLAKE_ROLE=$SNOWFLAKE_ROLE"
           echo "SNOWFLAKE_WAREHOUSE=$SNOWFLAKE_WAREHOUSE"
           echo "SNOWFLAKE_DATABASE=$SNOWFLAKE_DATABASE"
@@ -37,27 +45,28 @@ jobs:
       - name: Show deployment script info
         run: |
           set -x
-          echo "📄 Displaying deployment SQL script info and first few lines:"
-          ls -l scripts/main_deploy.sql
-          head -n 20 scripts/main_deploy.sql
+          echo "📄 Deployment SQL script info:"
+          ls -lh scripts/main_deploy.sql || (echo "❌ Script not found" && exit 1)
+          echo "--- First 20 lines of deployment script ---"
+          head -n 20 scripts/main_deploy.sql || echo "(File missing or empty)"
+          echo "-----------------------------------------"
 
-      - name: Run Snowflake Deployment (Inline Credentials)
+      - name: Run Snowflake Deployment (using secrets as env)
         env:
-          SNOWFLAKE_ACCOUNT: SPHEUCZ-HQ66596
-          SNOWFLAKE_USERNAME: SFTRAINING
-          SNOWFLAKE_PASSWORD: GoodSuperluck@025
-          SNOWFLAKE_ROLE: ACCOUNTADMIN
-          SNOWFLAKE_WAREHOUSE: COMPUTE_WH
-          SNOWFLAKE_DATABASE: SFTRAINING_EMP_DB
-          SNOWFLAKE_SCHEMA: EMP_HR
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USERNAME: ${{ secrets.SNOWFLAKE_USERNAME }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+          SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
+          SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
+          SNOWFLAKE_DATABASE: ${{ secrets.SNOWFLAKE_DATABASE }}
+          SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
         run: |
           set -x
           echo "🔁 Running Snowflake deploy script via Snow CLI..."
-      
+
           snow sql \
             --account "$SNOWFLAKE_ACCOUNT" \
             --user "$SNOWFLAKE_USERNAME" \
-            --password "$SNOWFLAKE_PASSWORD" \
             --role "$SNOWFLAKE_ROLE" \
             --warehouse "$SNOWFLAKE_WAREHOUSE" \
             --database "$SNOWFLAKE_DATABASE" \
