@@ -19,7 +19,7 @@ jobs:
           python3 -m pip install --upgrade pip
           pip install snowflake-cli-labs
           echo "$HOME/.local/bin" >> $GITHUB_PATH
-          # Confirm snow CLI installed
+          hash -r  # refresh shell path
           snow --version || echo "Snow CLI not found"
 
       - name: Debug Snowflake environment variables
@@ -54,7 +54,6 @@ jobs:
           set -x
           echo "🔁 Running Snowflake deploy script via Snow CLI..."
 
-          # Use --connection none to avoid profile errors
           snow sql \
             --connection none \
             --account "$SNOWFLAKE_ACCOUNT" \
