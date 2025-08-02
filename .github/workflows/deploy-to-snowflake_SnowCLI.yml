@@ -15,9 +15,32 @@ jobs:
 
       - name: Set up Python & Install Snowflake CLI
         run: |
+          set -x
           python3 -m pip install --upgrade pip
           pip install snowflake-cli-labs
           echo "$HOME/.local/bin" >> $GITHUB_PATH
+          # Confirm snow CLI installed
+          snow --version || echo "Snow CLI not found"
+
+      - name: Debug Snowflake environment variables
+        run: |
+          set -x
+          echo "🛠 Snowflake Environment Variables:"
+          echo "SNOWFLAKE_ACCOUNT=$SNOWFLAKE_ACCOUNT"
+          echo "SNOWFLAKE_USERNAME=$SNOWFLAKE_USERNAME"
+          echo "SNOWFLAKE_PASSWORD=********"  # Mask password for security
+          echo "SNOWFLAKE_ROLE=$SNOWFLAKE_ROLE"
+          echo "SNOWFLAKE_WAREHOUSE=$SNOWFLAKE_WAREHOUSE"
+          echo "SNOWFLAKE_DATABASE=$SNOWFLAKE_DATABASE"
+          echo "SNOWFLAKE_SCHEMA=$SNOWFLAKE_SCHEMA"
+
+      - name: Show deployment script info
+        run: |
+          set -x
+          echo "📄 Displaying deployment SQL script info and first few lines:"
+          ls -l scripts/main_deploy.sql
+          head -n 20 scripts/main_deploy.sql
+
       - name: Run Snowflake Deployment (Inline Credentials)
         env:
           SNOWFLAKE_ACCOUNT: SPHEUCZ-HQ66596
@@ -29,8 +52,11 @@ jobs:
           SNOWFLAKE_SCHEMA: EMP_HR
         run: |
           set -x
-          echo "🔁 Running Snowflake deploy script..."
+          echo "🔁 Running Snowflake deploy script via Snow CLI..."
+
+          # Use --connection none to avoid profile errors
           snow sql \
+            --connection none \
             --account "$SNOWFLAKE_ACCOUNT" \
             --user "$SNOWFLAKE_USERNAME" \
             --password "$SNOWFLAKE_PASSWORD" \
@@ -39,3 +65,11 @@ jobs:
             --database "$SNOWFLAKE_DATABASE" \
             --schema "$SNOWFLAKE_SCHEMA" \
             --filename scripts/main_deploy.sql
+          ret=$?
+          echo "Snowflake CLI exit code: $ret"
+          if [ $ret -ne 0 ]; then
+            echo "❌ Snowflake CLI execution failed"
+            exit $ret
+          else
+            echo "✅ Snowflake CLI executed successfully"
+          fi
