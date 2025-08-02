@@ -53,9 +53,8 @@ jobs:
         run: |
           set -x
           echo "🔁 Running Snowflake deploy script via Snow CLI..."
-
+      
           snow sql \
-            --connection none \
             --account "$SNOWFLAKE_ACCOUNT" \
             --user "$SNOWFLAKE_USERNAME" \
             --password "$SNOWFLAKE_PASSWORD" \
