@@ -18,8 +18,7 @@ jobs:
           python3 -m pip install --upgrade pip
           pip install snowflake-cli-labs
           echo "$HOME/.local/bin" >> $GITHUB_PATH
-
-      - name: Run Snowflake Deployment (Inline Credentials)
+      - name: Run Snowflake Deployment (Direct Flags, No Config)
         env:
           SNOWFLAKE_ACCOUNT: SPHEUCZ-HQ66596
           SNOWFLAKE_USERNAME: SFTRAINING
@@ -32,6 +31,7 @@ jobs:
           set -x
           echo "🔁 Running Snowflake deploy script..."
           snow sql \
+            --connection none \
             --account "$SNOWFLAKE_ACCOUNT" \
             --user "$SNOWFLAKE_USERNAME" \
             --password "$SNOWFLAKE_PASSWORD" \
