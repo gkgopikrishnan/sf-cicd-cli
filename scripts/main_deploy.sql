@@ -1,2 +1,2 @@
-!source procedures/create_procs.sql
-!source views/create_views.sql
+!source scripts/procedures/create_procs.sql
+!source scripts/views/create_views.sql
