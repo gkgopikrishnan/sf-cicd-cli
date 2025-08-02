@@ -16,8 +16,7 @@ jobs:
       - name: Set up Python & Install Snowflake CLI
         run: |
           python3 -m pip install --upgrade pip
-          pip install pipx
-          pipx install snowflake-cli-labs
+          pip install snowflake-cli-labs
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Run Snowflake Deployment (Hardcoded Credentials)
