@@ -3,7 +3,7 @@ name: Deploy to Snowflake (SnowCLI)
 on:
   push:
     branches:
-      - dev  
+      - uat  
 
 jobs:
   deploy:
@@ -24,23 +24,23 @@ jobs:
 
       - name: Print all Snowflake env vars for debug (masked password)
         env:
-          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-          SNOWFLAKE_USERNAME: ${{ secrets.SNOWFLAKE_USERNAME }}
-          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
-          SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
-          SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
-          SNOWFLAKE_DATABASE: ${{ secrets.SNOWFLAKE_DATABASE }}
-          SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
+          SNOWFLAKE_ACCOUNT: ${{ secrets.UAT_SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USERNAME: ${{ secrets.UAT_SNOWFLAKE_USERNAME }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.UAT_SNOWFLAKE_PASSWORD }}
+          SNOWFLAKE_ROLE: ${{ secrets.UAT_SNOWFLAKE_ROLE }}
+          SNOWFLAKE_WAREHOUSE: ${{ secrets.UAT_SNOWFLAKE_WAREHOUSE }}
+          SNOWFLAKE_DATABASE: ${{ secrets.UAT_SNOWFLAKE_DATABASE }}
+          SNOWFLAKE_SCHEMA: ${{ secrets.UAT_SNOWFLAKE_SCHEMA }}
         run: |
           set -x
           echo "🛠 Snowflake Environment Variables:"
-          echo "SNOWFLAKE_ACCOUNT=$SNOWFLAKE_ACCOUNT"
-          echo "SNOWFLAKE_USERNAME=$SNOWFLAKE_USERNAME"
+          echo "SNOWFLAKE_ACCOUNT=$UAT_SNOWFLAKE_ACCOUNT"
+          echo "SNOWFLAKE_USERNAME=$UAT_SNOWFLAKE_USERNAME"
           echo "SNOWFLAKE_PASSWORD=********"  # Masked for security
-          echo "SNOWFLAKE_ROLE=$SNOWFLAKE_ROLE"
-          echo "SNOWFLAKE_WAREHOUSE=$SNOWFLAKE_WAREHOUSE"
-          echo "SNOWFLAKE_DATABASE=$SNOWFLAKE_DATABASE"
-          echo "SNOWFLAKE_SCHEMA=$SNOWFLAKE_SCHEMA"
+          echo "SNOWFLAKE_ROLE=$UAT_SNOWFLAKE_ROLE"
+          echo "SNOWFLAKE_WAREHOUSE=$UAT_SNOWFLAKE_WAREHOUSE"
+          echo "SNOWFLAKE_DATABASE=$UAT_SNOWFLAKE_DATABASE"
+          echo "SNOWFLAKE_SCHEMA=$UAT_SNOWFLAKE_SCHEMA"
 
       - name: Show deployment script info
         run: |
@@ -56,13 +56,13 @@ jobs:
           mkdir -p ~/.snowflake
           cat <<EOF > ~/.snowflake/config.toml
           [connections.default]
-          account = "${{ secrets.SNOWFLAKE_ACCOUNT }}"
-          user = "${{ secrets.SNOWFLAKE_USERNAME }}"
-          password = "${{ secrets.SNOWFLAKE_PASSWORD }}"
-          role = "${{ secrets.SNOWFLAKE_ROLE }}"
-          warehouse = "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
-          database = "${{ secrets.SNOWFLAKE_DATABASE }}"
-          schema = "${{ secrets.SNOWFLAKE_SCHEMA }}"
+          account = "${{ secrets.UAT_SNOWFLAKE_ACCOUNT }}"
+          user = "${{ secrets.UAT_SNOWFLAKE_USERNAME }}"
+          password = "${{ secrets.UAT_SNOWFLAKE_PASSWORD }}"
+          role = "${{ secrets.UAT_SNOWFLAKE_ROLE }}"
+          warehouse = "${{ secrets.UAT_SNOWFLAKE_WAREHOUSE }}"
+          database = "${{ secrets.UAT_SNOWFLAKE_DATABASE }}"
+          schema = "${{ secrets.UAT_SNOWFLAKE_SCHEMA }}"
           EOF
           chmod 600 ~/.snowflake/config.toml
 
