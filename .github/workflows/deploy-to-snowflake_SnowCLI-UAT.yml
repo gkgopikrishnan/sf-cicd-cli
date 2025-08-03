@@ -1,4 +1,4 @@
-name: Deploy to Snowflake (SnowCLI)
+name: Deploy to Snowflake (SnowCLI) - UAT
 
 on:
   push:
