@@ -1,4 +1,5 @@
 CREATE OR REPLACE table employees
 ( id number, 
- name varchar );
+ name varchar,
+ is_active varchar );
 
