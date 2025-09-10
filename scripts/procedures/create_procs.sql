@@ -9,7 +9,7 @@ AS
 $$
 BEGIN
   INSERT INTO employee_activity_log (employee_id, activity_time, description)
-  SELECT id, CURRENT_TIMESTAMP(), 'Checked in'
+  SELECT id, CURRENT_TIMESTAMP(), 'New Checkin Dev'
   FROM employees
   WHERE is_active = TRUE;
 
