@@ -1,4 +1,4 @@
-CREATE OR REPLACE TABLE emp_table_change1 (
+CREATE OR REPLACE TABLE emp_table_change2 (
   Employee_ID INT,
   Name STRING,
   Department STRING,
