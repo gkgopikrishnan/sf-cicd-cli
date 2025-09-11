@@ -1,0 +1,51 @@
+name: Deploy to Snowflake (Dev)
+
+on:
+  push:
+    branches:
+      - uat
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: myprj-uat
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python & Install Snowflake CLI
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install snowflake-cli-labs
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Create snowflake config file (from environment secrets)
+        run: |
+          mkdir -p ~/.snowflake
+          cat <<EOF > ~/.snowflake/config.toml
+          [connections.default]
+          account   = "${{ secrets.SNOWFLAKE_ACCOUNT }}"
+          user      = "${{ secrets.SNOWFLAKE_USERNAME }}"
+          password  = "${{ secrets.SNOWFLAKE_PASSWORD }}"
+          role      = "${{ secrets.SNOWFLAKE_ROLE }}"
+          warehouse = "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
+          database  = "${{ secrets.SNOWFLAKE_DATABASE }}"
+          schema    = "${{ secrets.SNOWFLAKE_SCHEMA }}"
+          EOF
+          chmod 600 ~/.snowflake/config.toml
+
+      - name: Run Snowflake Deployment using connection profile
+        run: |
+          set -x
+          echo "🔁 Running Snowflake deploy script via Snow CLI with connection profile..."
+
+          snow sql --connection default --filename scripts/main_deploy.sql
+          ret=$?
+          echo "Snowflake CLI exit code: $ret"
+          if [ $ret -ne 0 ]; then
+            echo "❌ Snowflake CLI execution failed"
+            exit $ret
+          else
+            echo "✅ Snowflake CLI executed successfully"
+          fi
