@@ -1,4 +1,4 @@
-name: Deploy to Snowflake (Dev)
+name: Deploy to Snowflake (Uat)
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: myprj-uat
+    environment: myprj-uat-env
 
     steps:
       - name: Checkout code
