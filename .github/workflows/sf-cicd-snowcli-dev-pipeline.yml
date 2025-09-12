@@ -33,7 +33,7 @@ jobs:
           database  = "${{ secrets.SNOWFLAKE_DATABASE }}"
           schema    = "${{ secrets.SNOWFLAKE_SCHEMA }}"
           EOF
-          chmod 600 ~/.snowflake/config.toml
+          chmod 600 ~/.snowflake/config
 
       - name: Run Snowflake Deployment using connection profile
         run: |
