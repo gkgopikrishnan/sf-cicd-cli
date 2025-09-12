@@ -20,7 +20,7 @@ jobs:
           pip install snowflake-cli-labs
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-      - name: Create snowflake config file (from environment secrets)
+      - name: Create snowflake config file (from git environment secrets)
         run: |
           mkdir -p ~/.snowflake
           cat <<EOF > ~/.snowflake/config
