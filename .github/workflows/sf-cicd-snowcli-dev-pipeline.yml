@@ -23,7 +23,7 @@ jobs:
       - name: Create snowflake config file (from environment secrets)
         run: |
           mkdir -p ~/.snowflake
-          cat <<EOF > ~/.snowflake/config.toml
+          cat <<EOF > ~/.snowflake/config
           [connections.default]
           account   = "${{ secrets.SNOWFLAKE_ACCOUNT }}"
           user      = "${{ secrets.SNOWFLAKE_USERNAME }}"
