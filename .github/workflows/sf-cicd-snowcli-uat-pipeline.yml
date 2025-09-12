@@ -1,4 +1,4 @@
-vname: Deploy to Snowflake (Uat)
+name: Deploy to Snowflake (Uat)
 
 on:
   push:
