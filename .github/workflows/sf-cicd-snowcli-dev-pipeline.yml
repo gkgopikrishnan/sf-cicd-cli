@@ -40,7 +40,7 @@ jobs:
           set -x
           echo "🔁 Running Snowflake deploy script via Snow CLI with connection profile..."
 
-          snow sql --connection dev --filename scripts/main_deploy.sql
+          snowsql -c dev -filename scripts/main_deploy.sql
           ret=$?
           echo "Snowflake CLI exit code: $ret"
           if [ $ret -ne 0 ]; then
