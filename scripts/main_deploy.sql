@@ -4,3 +4,4 @@
 !source scripts/views/create_views.sql
 !source scripts/views/create_views_target_employees.sql
 !source scripts/functions/add_bonus.sql
+!source scripts/task/ins_emp.sql
