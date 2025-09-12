@@ -23,8 +23,8 @@ jobs:
       - name: Create snowflake config file (from environment secrets)
         run: |
           mkdir -p ~/.snowflake
-          cat <<EOF > ~/.snowflake/config
-          [connections.dev]
+          cat <<EOF > ~/.snowflake/config.toml
+          [connections.default]
           account   = "${{ secrets.SNOWFLAKE_ACCOUNT }}"
           user      = "${{ secrets.SNOWFLAKE_USERNAME }}"
           password  = "${{ secrets.SNOWFLAKE_PASSWORD }}"
@@ -33,14 +33,14 @@ jobs:
           database  = "${{ secrets.SNOWFLAKE_DATABASE }}"
           schema    = "${{ secrets.SNOWFLAKE_SCHEMA }}"
           EOF
-          chmod 600 ~/.snowflake/config
+          chmod 600 ~/.snowflake/config.toml
 
       - name: Run Snowflake Deployment using connection profile
         run: |
           set -x
           echo "🔁 Running Snowflake deploy script via Snow CLI with connection profile..."
 
-          snowsql -c dev -filename scripts/main_deploy.sql
+          snow sql --connection default --filename scripts/main_deploy.sql
           ret=$?
           echo "Snowflake CLI exit code: $ret"
           if [ $ret -ne 0 ]; then
