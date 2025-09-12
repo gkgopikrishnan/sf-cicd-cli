@@ -24,7 +24,7 @@ jobs:
         run: |
           mkdir -p ~/.snowflake
           cat <<EOF > ~/.snowflake/config
-          [connections.default]
+          [connections.dev]
           account   = "${{ secrets.SNOWFLAKE_ACCOUNT }}"
           user      = "${{ secrets.SNOWFLAKE_USERNAME }}"
           password  = "${{ secrets.SNOWFLAKE_PASSWORD }}"
