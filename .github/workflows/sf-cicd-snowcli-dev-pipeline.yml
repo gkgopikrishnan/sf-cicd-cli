@@ -8,7 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: myprj-dev
+    environment: ci-cd-demo-dev-env
 
     steps:
       - name: Checkout code
@@ -25,13 +25,13 @@ jobs:
           mkdir -p ~/.snowflake
           cat <<EOF > ~/.snowflake/config.toml
           [connections.default]
-          account   = "${{ secrets.SNOWFLAKE_ACCOUNT }}"
-          user      = "${{ secrets.SNOWFLAKE_USERNAME }}"
-          password  = "${{ secrets.SNOWFLAKE_PASSWORD }}"
-          role      = "${{ secrets.SNOWFLAKE_ROLE }}"
-          warehouse = "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
-          database  = "${{ secrets.SNOWFLAKE_DATABASE }}"
-          schema    = "${{ secrets.SNOWFLAKE_SCHEMA }}"
+          account   = "${{ secrets.DEV_SNOWFLAKE_ACCOUNT }}"
+          user      = "${{ secrets.DEV_SNOWFLAKE_USER }}"
+          password  = "${{ secrets.DEV_SNOWFLAKE_PASSWORD }}"
+          role      = "${{ secrets.DEV_SNOWFLAKE_ROLE }}"
+          warehouse = "${{ secrets.DEV_SNOWFLAKE_WAREHOUSE }}"
+          database  = "${{ secrets.DEV_SNOWFLAKE_DATABASE }}"
+          schema    = "${{ secrets.DEV_SNOWFLAKE_SCHEMA }}"
           EOF
           chmod 600 ~/.snowflake/config.toml
 
